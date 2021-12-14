@@ -29,19 +29,22 @@ def fib_recursion(n):
         return fib_recursion(n - 1) + fib_recursion(n - 2)
 
 
-j = 15
-model = main.NeuroMath(window_size=j, sequence='arithmetic')
-model.training()
+window_size = 3
+
+# create original dataset for training
+original_data = []
+arithmetic_filling(original_data, 30)
+
+# create dataset for recognition
 test_data = []
-arithmetic_filling(test_data, j)
+arithmetic_filling(test_data, window_size)
+model = neuro_math.NeuroMath(original_data, window_size=window_size)
+model.training()
 result = model.guessing(np.array(test_data))
-original = (j + 5)
+original = (window_size + 5)
 print('input sequence:')
 print(test_data)
-print('result:')
-print(result)
-print('original:')
-print(original)
-error = abs((result - original) / original)
-print('error = ')
-print(error)
+print('result: ' + str(result[0][0]))
+print('original: ' + str(original))
+error = abs((result[0][0] - original) / original)
+print('error = ' + str(error))
